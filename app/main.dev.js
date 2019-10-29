@@ -13,7 +13,14 @@
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import express from 'express';
 import MenuBuilder from './menu';
+
+const expressApp = express();
+expressApp.get('/', (req, res) => res.send('Hello World!'));
+expressApp.listen(3000, () =>
+  console.log('Example app listening on port 3000!')
+);
 
 export default class AppUpdater {
   constructor() {
