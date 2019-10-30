@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.5.2",
+    "@material-ui/icons": "^4.5.1",
+    "clsx": "^1.0.4",
     "electron-is-dev": "^1.1.0",
     "express": "^4.17.1",
     "firebase": "^7.2.2",
@@ -11,6 +13,7 @@
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.1",
     "react-redux-firebase": "^3.0.3",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
     "redux-firestore": "^0.9.0"

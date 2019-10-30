@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import App from './App';
+import App from './Containers/App';
 import * as serviceWorker from './serviceWorker';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
