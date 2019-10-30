@@ -8,13 +8,19 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
+import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
-        maxWidth: "500px"
+        maxWidth: "500px",
+    },
+    button: {
+        margin: theme.spacing(1),
     },
     textField: {
         marginLeft: theme.spacing(1),
@@ -29,15 +35,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Login() {
+const Login = (props) => {
     const classes = useStyles();
     const [values, setValues] = React.useState({
         email: '',
         password: '',
         showPassword: false,
     });
-
-
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -51,45 +55,68 @@ export default function Login() {
         event.preventDefault();
     };
 
+    const auth = useSelector(state => state.firebase.auth)
+    const firebase = props.firebase;
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (values.email && values.password) {
+            return firebase.login({
+                email: values.email,
+                password: values.password
+            })
+        }
+    }
 
     return (
         <div>
-            <h1>Login Test</h1>
-            <form className={classes.container} noValidate autoComplete="off">
-                <TextField
-                    id="email-textarea"
-                    label="Email"
-                    placeholder="Email"
-                    value={values.email}
-                    onChange={handleChange('email')}
-                    multiline
-                    className={classes.textField}
-                    margin="normal"
-                    variant="outlined"
-                />
-                <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
-                        onChange={handleChange('password')}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                >
-                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        labelWidth={70}
-                    />
-                </FormControl>
-            </form>
+            {
+                !isLoaded(auth)
+                    ? <span>Loading...</span>
+                    : isEmpty(auth)
+                        ? <form className={classes.container} noValidate autoComplete="off">
+                            <h1>Login Test</h1>
+                            <TextField
+                                id="email-textarea"
+                                label="Email"
+                                placeholder="Email"
+                                value={values.email}
+                                onChange={handleChange('email')}
+                                multiline
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    onChange={handleChange('password')}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    labelWidth={70}
+                                />
+                            </FormControl>
+                            <Button onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+                                Submit
+                            </Button>
+                        </form>
+                        : <pre>{JSON.stringify(auth, null, 2)}</pre>
+            }
+
         </div>
     )
 }
+
+export default withFirebase(Login);
