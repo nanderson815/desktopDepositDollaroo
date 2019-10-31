@@ -10,8 +10,9 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
-import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
+import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -41,6 +42,7 @@ const Login = (props) => {
         email: '',
         password: '',
         showPassword: false,
+        error: ''
     });
 
     const handleChange = prop => event => {
@@ -65,6 +67,9 @@ const Login = (props) => {
                 email: values.email,
                 password: values.password
             })
+                .catch((err) => {
+                    setValues({ ...values, error: err.message })
+                })
         }
     }
 
@@ -75,7 +80,7 @@ const Login = (props) => {
                     ? <span>Loading...</span>
                     : isEmpty(auth)
                         ? <form className={classes.container} noValidate autoComplete="off">
-                            <h1>Login Test</h1>
+                            <h1>Login</h1>
                             <TextField
                                 id="email-textarea"
                                 label="Email"
@@ -108,11 +113,12 @@ const Login = (props) => {
                                     labelWidth={70}
                                 />
                             </FormControl>
-                            <Button onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+                            <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
                                 Submit
                             </Button>
+                            <p id="error">{values.error}</p>
                         </form>
-                        : <pre>{JSON.stringify(auth, null, 2)}</pre>
+                        : <Redirect to={{ pathname: "/dashboard" }} />
             }
 
         </div>
