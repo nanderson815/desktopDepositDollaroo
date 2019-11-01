@@ -9,8 +9,14 @@ const isDev = require('electron-is-dev');
 
 
 const expressApp = express();
-expressApp.get('/', (req, res) => res.send('Hello World!'));
-expressApp.listen(3001, () => console.log('Example app listening on port 3001!'));
+// Parse request body as JSON
+expressApp.use(express.urlencoded({
+    extended: true
+}));
+expressApp.use(express.json());
+require("../routes/routeTest.js")(expressApp);
+require('../routes/SerialPort.js')(expressApp);
+expressApp.listen(3001, () => console.log('Server listening on port 3001!'));
 let mainWindow;
 
 function createWindow() {

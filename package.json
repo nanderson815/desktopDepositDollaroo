@@ -7,6 +7,7 @@
     "@material-ui/icons": "^4.5.1",
     "clsx": "^1.0.4",
     "electron-is-dev": "^1.1.0",
+    "electron-rebuild": "^1.8.6",
     "express": "^4.17.1",
     "firebase": "^7.2.2",
     "react": "^16.11.0",
@@ -16,7 +17,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
-    "redux-firestore": "^0.9.0"
+    "redux-firestore": "^0.9.0",
+    "serialport": "^8.0.5"
   },
   "main": "public/electron.js",
   "scripts": {
@@ -24,7 +26,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
+    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "install": "electron-rebuild"
   },
   "eslintConfig": {
     "extends": "react-app"

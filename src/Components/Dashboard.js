@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 
-
-
 const Dashboard = (props) => {
     const auth = useSelector(state => state.firebase.auth)
 
