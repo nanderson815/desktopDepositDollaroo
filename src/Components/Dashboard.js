@@ -8,7 +8,13 @@ import { Redirect } from 'react-router-dom';
 
 const Dashboard = (props) => {
     const auth = useSelector(state => state.firebase.auth)
-    console.log(auth);
+    
+    if (isLoaded(auth) && !isEmpty(auth)){
+        props.firebase.auth().currentUser.getIdTokenResult()
+        .then((idTokenResult) => {
+            console.log(idTokenResult.claims)
+        })
+    }
 
     const logout = () => {
         props.firebase.logout()
@@ -23,6 +29,7 @@ const Dashboard = (props) => {
                         ? <Redirect to={{ pathname: "/" }} />
                         : <div>
                             <h1>Dashboard</h1>
+                            <Button variant="contained" color="primary">Make Deposit</Button>
                             <Button onClick={logout} variant="contained" color="primary">Logout</Button>
                         </div>
             }

@@ -10,7 +10,7 @@ const isDev = require('electron-is-dev');
 
 const expressApp = express();
 expressApp.get('/', (req, res) => res.send('Hello World!'));
-expressApp.listen(3001, () => console.log('Example app listening on port 3000!'));
+expressApp.listen(3001, () => console.log('Example app listening on port 3001!'));
 let mainWindow;
 
 function createWindow() {
