@@ -21,7 +21,6 @@ port.pipe(parser)
 parser.on('data', function (data) {
     console.log(data);
     report.push(data);
-    console.log(report);
 });
 
 

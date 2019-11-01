@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
+    "axios": "^0.19.0",
     "clsx": "^1.0.4",
     "electron-is-dev": "^1.1.0",
     "electron-rebuild": "^1.8.6",
@@ -20,14 +21,19 @@
     "redux-firestore": "^0.9.0",
     "serialport": "^8.0.5"
   },
-  "main": "public/electron.js",
+  "homepage": "./",
+  "main": "src/electron.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "nf start -p 3000",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "install": "electron-rebuild"
+    "electron": "electron .",
+    "electron-start": "node src/start-react",
+    "react-start": "react-scripts start",
+    "pack": "build --dir",
+    "dist": "npm run build && build",
+    "postinstall": "install-app-deps"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +55,16 @@
     "cross-env": "^6.0.3",
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0",
+    "npm-run-all": "^4.1.5",
     "wait-on": "^3.3.0"
+  },
+  "build": {
+    "appId": "com.electron.electron-with-create-react-app",
+    "win": {
+      "iconUrl": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
+    },
+    "directories": {
+      "buildResources": "public"
+    }
   }
 }

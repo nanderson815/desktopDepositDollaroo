@@ -10,7 +10,9 @@ const Dashboard = (props) => {
     const [values, setValues] = React.useState({
         company: '',
         location: '',
-        name: ''
+        name: '',
+        port: '',
+        portOptions: ''
     })
 
     useEffect(() => {
@@ -23,9 +25,16 @@ const Dashboard = (props) => {
                     let name = idTokenResult.claims.name
                     setValues({ company, location, name })
                 })
+                .catch(err => console.log(err));
         }
     }, [auth, props.firebase])
 
+    const getPorts = () => {
+        window.ipcRenderer.once('portList', (event, arg) => {
+            console.log(arg) // prints "pong"
+        })
+        window.ipcRenderer.send('getPorts', 'portsPlz')
+    }
 
 
     const logout = () => {
@@ -43,6 +52,7 @@ const Dashboard = (props) => {
                             <h1>{values.company}</h1>
                             <Button variant="contained" color="primary">Make Deposit</Button>
                             <Button onClick={logout} variant="contained" color="primary">Logout</Button>
+                            <Button onClick={getPorts} variant="contained" color="primary">Get Ports</Button>
                         </div>
             }
 

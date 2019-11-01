@@ -1,27 +1,35 @@
 const electron = require('electron');
-const express = require('express');
-
 const app = electron.app;
+const { ipcMain } = require('electron')
 const BrowserWindow = electron.BrowserWindow;
-
+const url = require('url')
 const path = require('path');
 const isDev = require('electron-is-dev');
 
+ipcMain.on('getPorts', (event, arg) => {
+    console.log(arg) // prints "ping"
+    event.reply('portList', 'pong')
+})
 
-const expressApp = express();
-// Parse request body as JSON
-expressApp.use(express.urlencoded({
-    extended: true
-}));
-expressApp.use(express.json());
-require("../routes/routeTest.js")(expressApp);
-require('../routes/SerialPort.js')(expressApp);
-expressApp.listen(3001, () => console.log('Server listening on port 3001!'));
 let mainWindow;
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 900, height: 680 });
-    mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+    mainWindow = new BrowserWindow({
+        width: 1280,
+        height: 800,
+        webPreferences: {
+            nodeIntegration: false,
+            preload: path.join(__dirname, 'preload.js')
+        }
+    });
+    mainWindow.loadURL(
+        process.env.ELECTRON_START_URL ||
+        url.format({
+            pathname: path.join(__dirname, '/../public/index.html'),
+            protocol: 'file:',
+            slashes: true
+        })
+    )
     if (isDev) {
         // Open the DevTools.
         //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
