@@ -13,12 +13,17 @@ import clsx from 'clsx';
 import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Container } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
-        maxWidth: "500px",
+    },
+    root: {
+        padding: theme.spacing(3, 2),
+        maxWidth: 500
     },
     button: {
         margin: theme.spacing(1),
@@ -74,54 +79,63 @@ const Login = (props) => {
     }
 
     return (
-        <div>
+        <Container>
             {
                 !isLoaded(auth)
                     ? <span>Loading...</span>
                     : isEmpty(auth)
-                        ? <form className={classes.container} noValidate autoComplete="off">
-                            <h1>Login</h1>
-                            <TextField
-                                id="email-textarea"
-                                label="Email"
-                                placeholder="Email"
-                                value={values.email}
-                                onChange={handleChange('email')}
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                <OutlinedInput
-                                    id="outlined-adornment-password"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    value={values.password}
-                                    onChange={handleChange('password')}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    labelWidth={70}
-                                />
-                            </FormControl>
-                            <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
-                                Submit
+                        ? <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            style={{ minHeight: '75vh' }}>
+                            <Paper className={classes.root}>
+                                <form className={classes.container} noValidate autoComplete="off">
+                                    <h2>Login</h2>
+                                    <TextField
+                                        id="email-textarea"
+                                        label="Email"
+                                        placeholder="Email"
+                                        value={values.email}
+                                        onChange={handleChange('email')}
+                                        multiline
+                                        className={classes.textField}
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
+                                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-password"
+                                            type={values.showPassword ? 'text' : 'password'}
+                                            value={values.password}
+                                            onChange={handleChange('password')}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                    >
+                                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            labelWidth={70}
+                                        />
+                                    </FormControl>
+                                    <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+                                        Submit
                             </Button>
-                            <p id="error">{values.error}</p>
-                        </form>
+                                    <p id="error">{values.error}</p>
+                                </form>
+                            </Paper>
+                        </Grid>
                         : <Redirect to={{ pathname: "/dashboard" }} />
             }
 
-        </div>
+        </Container>
     )
 }
 

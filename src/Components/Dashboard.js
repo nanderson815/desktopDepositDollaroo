@@ -7,11 +7,8 @@ import ConnectScanner from './ConnectScanner';
 import { Container } from '@material-ui/core';
 
 
-
 const Dashboard = (props) => {
-
     const auth = useSelector(state => state.firebase.auth)
-
     const [values, setValues] = React.useState({
         company: '',
         location: '',
@@ -36,7 +33,6 @@ const Dashboard = (props) => {
                 .catch(err => console.log(err));
         }
     }, [auth, props.firebase])
-
 
     const logout = () => {
         props.firebase.logout()
