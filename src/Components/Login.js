@@ -39,6 +39,13 @@ const useStyles = makeStyles(theme => ({
     withoutLabel: {
         marginTop: theme.spacing(3),
     },
+    centerText: {
+        textAlign: "center",
+        width: "100%"
+    }, centerDiv: {
+        margin: "0 auto",
+        marginBottom: 10
+    }
 }));
 
 const Login = (props) => {
@@ -92,7 +99,7 @@ const Login = (props) => {
                             style={{ minHeight: '75vh' }}>
                             <Paper className={classes.root}>
                                 <form className={classes.container} noValidate autoComplete="off">
-                                    <h2>Login</h2>
+                                    <h2 className={classes.centerText}>Login</h2>
                                     <TextField
                                         id="email-textarea"
                                         label="Email"
@@ -100,11 +107,11 @@ const Login = (props) => {
                                         value={values.email}
                                         onChange={handleChange('email')}
                                         multiline
-                                        className={classes.textField}
+                                        className={clsx(classes.textField, classes.centerDiv)}
                                         margin="normal"
                                         variant="outlined"
                                     />
-                                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                    <FormControl className={clsx(classes.margin, classes.textField, classes.centerDiv)} variant="outlined">
                                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-password"
@@ -125,10 +132,11 @@ const Login = (props) => {
                                             labelWidth={70}
                                         />
                                     </FormControl>
-                                    <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
-                                        Submit
-                            </Button>
-                                    <p id="error">{values.error}</p>
+                                    <div className={classes.centerText}>
+                                        <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+                                            Submit</Button>
+                                    </div>
+                                    <p id="error" className={classes.centerText}>{values.error}</p>
                                 </form>
                             </Paper>
                         </Grid>
