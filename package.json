@@ -22,9 +22,9 @@
     "serialport": "^8.0.5"
   },
   "homepage": "./",
-  "main": "src/electron.js",
+  "main": "electron.js",
   "scripts": {
-    "start": "nf start -p 3000",
+    "start": "concurrently \"npm run react-start\" \"npm run electron-start\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

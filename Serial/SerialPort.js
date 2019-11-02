@@ -2,19 +2,20 @@ var SerialPort = require('serialport');
 var port = new SerialPort('COM4', 9600);
 var Readline = SerialPort.parsers.Readline
 
-// list serial ports:
+let report = []
+let livePorts;
+
 SerialPort.list()
     .then((ports) => {
-        console.log(ports)
+        livePorts = ports
     })
-    .catch((err) => {
-        console.log(err)
-    })
+    .catch(err => err)
+
+const refreshPorts = async () => {
+
+}
 
 
-console.log("running...")
-
-let report = []
 
 var parser = new Readline()
 port.pipe(parser)
@@ -23,9 +24,13 @@ parser.on('data', function (data) {
     report.push(data);
 });
 
-
-
-
-module.exports = function (app) {
-    app.get('/deposit', (req, res) => res.send(report));
+const listPorts = () => {
+    return livePorts
 }
+
+async function getPorts() {
+    livePorts = await SerialPort.list()
+    return livePorts;
+}
+
+module.exports.getPorts = getPorts;

@@ -1,3 +1,5 @@
+const Serial = require('./Serial/SerialPort');
+
 const electron = require('electron');
 const app = electron.app;
 const { ipcMain } = require('electron')
@@ -7,8 +9,8 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 ipcMain.on('getPorts', (event, arg) => {
-    console.log(arg) // prints "ping"
-    event.reply('portList', 'pong')
+    Serial.getPorts()
+        .then(res => event.reply('portList', res))
 })
 
 let mainWindow;
@@ -19,13 +21,13 @@ function createWindow() {
         height: 800,
         webPreferences: {
             nodeIntegration: false,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, '/src/preload.js')
         }
     });
     mainWindow.loadURL(
         process.env.ELECTRON_START_URL ||
         url.format({
-            pathname: path.join(__dirname, '/../public/index.html'),
+            pathname: path.join(__dirname, '/public/index.html'),
             protocol: 'file:',
             slashes: true
         })

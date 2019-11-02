@@ -52,7 +52,7 @@ const Dashboard = (props) => {
                             <h1>{values.company}</h1>
                             <Button variant="contained" color="primary">Make Deposit</Button>
                             <Button onClick={logout} variant="contained" color="primary">Logout</Button>
-                            <Button onClick={getPorts} variant="contained" color="primary">Get Ports</Button>
+                            <Button onClick={getPorts} variant="contained" color="primary">Connect Scanner</Button>
                         </div>
             }
 
