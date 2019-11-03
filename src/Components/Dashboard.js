@@ -7,6 +7,10 @@ import { Container } from '@material-ui/core';
 import ConnectScanner from './ConnectScanner';
 import Deposit from './Deposit';
 
+window.ipcRenderer.on('data', (event, message) => {
+    console.log(message);
+});
+
 const Dashboard = (props) => {
     const auth = useSelector(state => state.firebase.auth)
     const [values, setValues] = React.useState({

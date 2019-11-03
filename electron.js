@@ -11,6 +11,11 @@ const isDev = require('electron-is-dev');
 ipcMain.on('getPorts', (event, arg) => {
     Serial.getPorts()
         .then(res => event.reply('portList', res))
+});
+
+ipcMain.on('openPort', (event, arg) => {
+    Serial.openPort(arg)
+        .then(res => event.reply('openPort', res))
 })
 
 let mainWindow;
@@ -38,6 +43,9 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     mainWindow.on('closed', () => mainWindow = null);
+    mainWindow.webContents.on('did-finish-load', () => {
+        module.exports.mainWindow = mainWindow;
+    });
 }
 
 app.on('ready', createWindow);

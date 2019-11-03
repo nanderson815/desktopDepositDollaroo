@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
 const useStyles = makeStyles(theme => ({
     card: {
         minWidth: 500,
@@ -41,15 +42,12 @@ const Deposit = (props) => {
         setStep(step + 1)
     };
 
-    const getPorts = () => {
-        // window.ipcRenderer.once('portList', (event, arg) => {
-        //     if (arg.length > 0) {
-        //         setValues({ ...values, portOptions: arg })
-        //     } else {
-        //         console.log("No scanner connected.")
-        //     }
-        // })
-        // window.ipcRenderer.send('getPorts', 'portsPlz')
+    const openPort = () => {
+        window.ipcRenderer.once('openPort', (event, arg) => {
+            console.log(arg)
+            setStep(step + 1)
+        })
+        window.ipcRenderer.send('openPort', props.port)
     };
 
     return (
@@ -69,7 +67,7 @@ const Deposit = (props) => {
                     <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
                         Step 2</Typography>
                     <p>Press the "Show" button on the S6500 until the Serial Number Report is visible.</p>
-                    <Button onClick={nextStep}>Acknowledge</Button>
+                    <Button onClick={openPort}>Acknowledge</Button>
                 </div> : null}
                 {step === 3 ? <div>
                     <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
