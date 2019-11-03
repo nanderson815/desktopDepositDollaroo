@@ -48,7 +48,11 @@ const Dashboard = (props) => {
                         ? <Redirect to={{ pathname: "/" }} />
                         : <div>
                             <h1>{values.company}</h1>
-                            <Button variant="contained" color="primary">Make Deposit</Button>
+                            {values.port ? <div>
+                                <p>{`Connected to ${values.port}`}</p>
+                                <Button variant="contained" color="primary">Make Deposit</Button>
+                            </div>
+                                : null}
                             {!values.port ? <ConnectScanner port={values.port} select={handleChange}></ConnectScanner> : null}
                             <Button onClick={logout} variant="contained" color="primary">Logout</Button>
                         </div>
