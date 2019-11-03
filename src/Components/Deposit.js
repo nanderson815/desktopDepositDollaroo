@@ -3,12 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +37,10 @@ const Deposit = (props) => {
         setStep(step + 1)
     };
 
+    window.ipcRenderer.on('data', (event, message) => {
+        console.log(message);
+    });
+
     const openPort = () => {
         window.ipcRenderer.once('openPort', (event, arg) => {
             console.log(arg)
@@ -60,22 +59,13 @@ const Deposit = (props) => {
                 {step === 1 ? <div>
                     <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
                         Step 1</Typography>
-                    <p>Use the Accubanker S6500 to count your bills. Press Acknowledge once the count is complete.</p>
-                    <Button onClick={nextStep}>Acknowledge</Button>
+                    <p>Use the Accubanker S6500 to count your bills. Make sure the S6500 is on "Mix" mode.</p>
+                    <Button onClick={openPort}>Acknowledge</Button>
                 </div> : null}
                 {step === 2 ? <div>
                     <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
                         Step 2</Typography>
-                    <p>Press the "Show" button on the S6500 until the Serial Number Report is visible.</p>
-                    <Button onClick={openPort}>Acknowledge</Button>
-                </div> : null}
-                {step === 3 ? <div>
-                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                        Step 3</Typography>
-                    <p>Press the "PRT" button on the S6500 once to transfer data.</p>
-                    <div className={classes.centerText}>
-                        <CircularProgress></CircularProgress>
-                    </div>
+                    <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                 </div> : null}
             </CardContent>
         </Card>
