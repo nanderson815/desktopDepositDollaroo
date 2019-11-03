@@ -3,9 +3,9 @@ import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
-import ConnectScanner from './ConnectScanner';
 import { Container } from '@material-ui/core';
-
+import ConnectScanner from './ConnectScanner';
+import Deposit from './Deposit';
 
 const Dashboard = (props) => {
     const auth = useSelector(state => state.firebase.auth)
@@ -50,7 +50,7 @@ const Dashboard = (props) => {
                             <h1>{values.company}</h1>
                             {values.port ? <div>
                                 <p>{`Connected to ${values.port}`}</p>
-                                <Button variant="contained" color="primary">Make Deposit</Button>
+                                <Deposit port={values.port}></Deposit>
                             </div>
                                 : null}
                             {!values.port ? <ConnectScanner port={values.port} select={handleChange}></ConnectScanner> : null}
