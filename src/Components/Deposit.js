@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -69,6 +70,14 @@ const Deposit = (props) => {
                         Step 2</Typography>
                     <p>Press the "Show" button on the S6500 until the Serial Number Report is visible.</p>
                     <Button onClick={nextStep}>Acknowledge</Button>
+                </div> : null}
+                {step === 3 ? <div>
+                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                        Step 3</Typography>
+                    <p>Press the "PRT" button on the S6500 once to transfer data.</p>
+                    <div className={classes.centerText}>
+                        <CircularProgress></CircularProgress>
+                    </div>
                 </div> : null}
             </CardContent>
         </Card>
