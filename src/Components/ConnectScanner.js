@@ -7,15 +7,22 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
     card: {
         minWidth: 275,
-        maxWidth: 300
+        maxWidth: 300,
+        margin: "5px 0px"
     },
     formControl: {
-        minWidth: 200,
-        margin: theme.spacing(1)
+        width: "100%",
+    },
+    title: {
+        fontSize: 16,
+    },
+    centerText: {
+        textAlign: "center"
     }
 }));
 
@@ -41,6 +48,9 @@ const ConnectScanner = (props) => {
     return (
         <Card className={classes.card}>
             <CardContent>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    Connect your Scanner
+        </Typography>
                 {values.portOptions.length !== 0 ?
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">
@@ -56,7 +66,9 @@ const ConnectScanner = (props) => {
                             })}
                         </Select>
                     </FormControl>
-                    : <Button className={classes.formControl} onClick={getPorts} variant="contained" color="primary">Connect Scanner</Button>
+                    : <div className={classes.centerText}>
+                        <Button className={classes.formControl} onClick={getPorts} variant="contained" color="primary">Connect</Button>
+                    </div>
                 }
             </CardContent>
         </Card>

@@ -49,8 +49,8 @@ const Dashboard = (props) => {
                         : <div>
                             <h1>{values.company}</h1>
                             <Button variant="contained" color="primary">Make Deposit</Button>
-                            <Button onClick={logout} variant="contained" color="primary">Logout</Button>
                             {!values.port ? <ConnectScanner port={values.port} select={handleChange}></ConnectScanner> : null}
+                            <Button onClick={logout} variant="contained" color="primary">Logout</Button>
                         </div>
             }
 
