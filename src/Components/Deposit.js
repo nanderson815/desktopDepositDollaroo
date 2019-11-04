@@ -55,11 +55,11 @@ const Deposit = (props) => {
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
             headerCount++;
+            // First five lines are not realted to bills.
             if (headerCount > 5) {
                 let messageArr = message.split(/\s+/);
                 messageArr.pop();
                 messageArr.shift();
-                console.log(messageArr);
                 let billObj = {
                     denomination: messageArr[1],
                     serial: messageArr[2]
@@ -102,7 +102,7 @@ const Deposit = (props) => {
                         Step 2</Typography>
                     <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                     <div className={classes.centerText}>
-                        <Table>
+                        <Table size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell>
