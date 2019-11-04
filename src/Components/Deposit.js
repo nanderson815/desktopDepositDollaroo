@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { Table, TableCell, TableRow } from '@material-ui/core';
+import { Table, TableCell, TableRow, TableHead, TableBody } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -60,13 +60,13 @@ const Deposit = (props) => {
         }
     }, [bills])
 
-    // let table;
-    // let depositReport = []
-    // table = depositReport.map((row, index) => {
-    //     return <TableRow key={index}>
-    //         <TableCell>{row}</TableCell>
-    //     </TableRow>
-    // })
+    const tableItems = bills.map((row, index) => {
+        return (
+            <TableRow key={index} >
+                <TableCell>{row}</TableCell>
+            </TableRow >
+        )
+    })
 
     return (
         <Card className={classes.card}>
@@ -87,7 +87,18 @@ const Deposit = (props) => {
                     <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                     <div className={classes.centerText}>
                         <CircularProgress></CircularProgress>
-                        <p>{bills.toString()}</p>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        Table
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {tableItems}
+                            </TableBody>
+                        </Table>
                     </div>
                 </div> : null}
             </CardContent>
