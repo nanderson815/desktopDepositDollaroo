@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+let headerCount = 0;
+
+
 const Deposit = (props) => {
     const classes = useStyles();
 
@@ -51,9 +54,20 @@ const Deposit = (props) => {
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
-            let messages = bills.slice();
-            messages.push(message);
-            setBills(messages);
+            headerCount++;
+            if (headerCount > 5) {
+                let messageArr = message.split(/\s+/);
+                messageArr.pop();
+                messageArr.shift();
+                console.log(messageArr);
+                let billObj = {
+                    denomination: messageArr[1],
+                    serial: messageArr[2]
+                }
+                let messages = bills.slice();
+                messages.push(billObj);
+                setBills(messages);
+            }
         });
         return () => {
             window.ipcRenderer.removeAllListeners('data')
@@ -63,7 +77,9 @@ const Deposit = (props) => {
     const tableItems = bills.map((row, index) => {
         return (
             <TableRow key={index} >
-                <TableCell>{row}</TableCell>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{row.denomination}</TableCell>
+                <TableCell>{row.serial}</TableCell>
             </TableRow >
         )
     })
@@ -86,12 +102,17 @@ const Deposit = (props) => {
                         Step 2</Typography>
                     <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                     <div className={classes.centerText}>
-                        <CircularProgress></CircularProgress>
                         <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>
-                                        Table
+                                        Count
+                                    </TableCell>
+                                    <TableCell>
+                                        Denomination
+                                    </TableCell>
+                                    <TableCell>
+                                        Serial Number
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
