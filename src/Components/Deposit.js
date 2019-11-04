@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Deposit = (props) => {
-    console.log(props)
     const classes = useStyles();
 
     // Manages the deposit flow using step system.
@@ -49,15 +48,17 @@ const Deposit = (props) => {
 
     const [bills, setBills] = React.useState([]);
 
+    // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
-            console.log(message)
+            let messages = bills.slice();
+            messages.push(message);
+            setBills(messages);
         });
-
         return () => {
-            window.ipcRenderer.removeListener('data')
+            window.ipcRenderer.removeAllListeners('data')
         }
-    }, [])
+    }, [bills])
 
     // let table;
     // let depositReport = []
