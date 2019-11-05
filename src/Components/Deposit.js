@@ -73,9 +73,11 @@ const Deposit = (props) => {
                     denomination: messageArr[1],
                     serial: messageArr[2]
                 }
-                let messages = bills.slice();
-                messages.push(billObj);
-                setBills(messages);
+                if (!bills.some(bill => bill.serial === billObj.serial)) {
+                    let messages = bills.slice();
+                    messages.push(billObj);
+                    setBills(messages);
+                }
             }
         });
         return () => {
@@ -86,7 +88,7 @@ const Deposit = (props) => {
     return (
         <Grid container className={classes.root} spacing={2}>
             <Grid item xs={6}>
-                <Card className={classes.card}>
+                <Card>
                     <CardContent>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                             Make a Remote Deposit
@@ -113,7 +115,7 @@ const Deposit = (props) => {
             </Grid>
             {step === 2 ?
                 <Grid item xs={6}>
-                    <Card className={classes.card}>
+                    <Card>
                         <CardContent>
                             <DepositTotals bills={bills}></DepositTotals>
                         </CardContent>

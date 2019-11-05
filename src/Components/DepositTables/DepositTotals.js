@@ -4,9 +4,11 @@ import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter } from '@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-    table: {
-        width: 200,
-    },
+    totalRow: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "black"
+    }
 }));
 
 
@@ -64,9 +66,9 @@ const DepositTotals = (props) => {
             </TableBody>
             <TableFooter>
                 <TableRow>
-                    <TableCell>Grand Total</TableCell>
-                    <TableCell>{props.bills.length}</TableCell>
-                    <TableCell>${total}</TableCell>
+                    <TableCell className={classes.totalRow}>Grand Total</TableCell>
+                    <TableCell className={classes.totalRow}>{props.bills.length}</TableCell>
+                    <TableCell className={classes.totalRow}>${total}</TableCell>
                 </TableRow>
             </TableFooter>
         </Table>

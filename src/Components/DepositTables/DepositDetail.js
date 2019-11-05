@@ -128,7 +128,7 @@ export default function DepositDetailTable(props) {
                 ))}
 
                 {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableRow style={{ height: 33 * emptyRows }}>
                         <TableCell colSpan={6} />
                     </TableRow>
                 )}
