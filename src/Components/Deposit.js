@@ -4,8 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { Table, TableCell, TableRow, TableHead, TableBody } from '@material-ui/core';
+import DepositDetailTable from './DepositTables/DepositDetail';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -61,6 +60,7 @@ const Deposit = (props) => {
                 messageArr.pop();
                 messageArr.shift();
                 let billObj = {
+                    order: messageArr[0],
                     denomination: messageArr[1],
                     serial: messageArr[2]
                 }
@@ -73,16 +73,6 @@ const Deposit = (props) => {
             window.ipcRenderer.removeAllListeners('data')
         }
     }, [bills])
-
-    const tableItems = bills.map((row, index) => {
-        return (
-            <TableRow key={index} >
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.denomination}</TableCell>
-                <TableCell>{row.serial}</TableCell>
-            </TableRow >
-        )
-    })
 
     return (
         <Card className={classes.card}>
@@ -102,24 +92,7 @@ const Deposit = (props) => {
                         Step 2</Typography>
                     <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                     <div className={classes.centerText}>
-                        <Table size="small">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        Count
-                                    </TableCell>
-                                    <TableCell>
-                                        Denomination
-                                    </TableCell>
-                                    <TableCell>
-                                        Serial Number
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {tableItems}
-                            </TableBody>
-                        </Table>
+                        <DepositDetailTable bills={bills}></DepositDetailTable>
                     </div>
                 </div> : null}
             </CardContent>
