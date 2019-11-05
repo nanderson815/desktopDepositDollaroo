@@ -16,12 +16,13 @@ const DepositTotals = (props) => {
     const classes = useStyles()
 
     let ones = props.bills.filter(x => x.denomination == 1).length;
+    let twos = props.bills.filter(x => x.denomination == 2).length;
     let fives = props.bills.filter(x => x.denomination == 5).length;
     let tens = props.bills.filter(x => x.denomination == 10).length;
     let twenties = props.bills.filter(x => x.denomination == 20).length;
     let fifties = props.bills.filter(x => x.denomination == 50).length;
     let hundreds = props.bills.filter(x => x.denomination == 100).length;
-    let total = (ones) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
+    let total = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
 
     return (
         <Table size="small">
@@ -37,6 +38,11 @@ const DepositTotals = (props) => {
                     <TableCell>Ones</TableCell>
                     <TableCell>{ones}</TableCell>
                     <TableCell>${ones * 1}</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>Twos</TableCell>
+                    <TableCell>{twos}</TableCell>
+                    <TableCell>${twos * 2}</TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell>Fives</TableCell>
