@@ -40,7 +40,6 @@ let headerCount = 0;
 
 const Deposit = (props) => {
     const classes = useStyles();
-    console.log(props)
 
     // Manages the deposit flow using step system.
     const [step, setStep] = React.useState(1)
@@ -62,6 +61,11 @@ const Deposit = (props) => {
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
+            // Resets count to avoid passing in text data.
+            if (message === "AccuBANKER Station  S6500") {
+                headerCount = 0;
+            }
+            console.log(message);
             headerCount++;
             // First five lines are not realted to bills.
             if (headerCount > 5) {
