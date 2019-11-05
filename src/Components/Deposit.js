@@ -6,8 +6,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DepositDetailTable from './DepositTables/DepositDetail';
 import DepositTotals from './DepositTables/DepositTotals';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+    },
     card: {
         minWidth: 500,
         maxWidth: 300,
@@ -80,33 +84,44 @@ const Deposit = (props) => {
     }, [bills])
 
     return (
-        <Card className={classes.card}>
-            <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Make a Remote Deposit
+        <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={6}>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Make a Remote Deposit
         </Typography>
-                <hr></hr>
-                {step === 1 ? <div>
-                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                        Step 1</Typography>
-                    <p>Make sure the S6500 is on "Mix" mode. Select Acknowledge and being counting.</p>
-                    <Button onClick={openPort}>Acknowledge</Button>
-                </div> : null}
-                {step === 2 ? <div>
-                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                        Step 2</Typography>
-                    <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
-                    <div className={classes.centerText}>
-                        <DepositTotals bills={bills}></DepositTotals>
-                        <br></br>
-                        <br></br>
-                        <DepositDetailTable bills={bills}></DepositDetailTable>
-                        <Button className={classes.button} variant="contained" color="primary">Submit</Button>
-                        <Button className={classes.button} variant="contained" color="primary">Clear</Button>
-                    </div>
-                </div> : null}
-            </CardContent>
-        </Card>
+                        <hr></hr>
+                        {step === 1 ? <div>
+                            <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                                Step 1</Typography>
+                            <p>Make sure the S6500 is on "Mix" mode. Select Acknowledge and being counting.</p>
+                            <Button onClick={openPort}>Acknowledge</Button>
+                        </div> : null}
+                        {step === 2 ? <div>
+                            <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                                Step 2</Typography>
+                            <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
+                            <div className={classes.centerText}>
+                                <DepositDetailTable bills={bills}></DepositDetailTable>
+                                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+                                <Button className={classes.button} variant="contained" color="primary">Clear</Button>
+                            </div>
+                        </div> : null}
+                    </CardContent>
+                </Card>
+            </Grid>
+            {step === 2 ?
+                <Grid item xs={6}>
+                    <Card className={classes.card}>
+                        <CardContent>
+                            <DepositTotals bills={bills}></DepositTotals>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                : null
+            }
+        </Grid>
     )
 }
 

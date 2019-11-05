@@ -22,7 +22,7 @@ const DepositTotals = (props) => {
     let total = (ones) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
 
     return (
-        <Table className={classes.table} size="small">
+        <Table size="small">
             <TableHead>
                 <TableRow>
                     <TableCell>Denomination</TableCell>
