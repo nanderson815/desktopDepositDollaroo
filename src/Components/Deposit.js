@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DepositDetailTable from './DepositTables/DepositDetail';
+import DepositTotals from './DepositTables/DepositTotals';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -92,6 +93,10 @@ const Deposit = (props) => {
                         Step 2</Typography>
                     <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                     <div className={classes.centerText}>
+                        <DepositTotals bills={bills}></DepositTotals>
+                        <br></br>
+                        <hr></hr>
+                        <br></br>
                         <DepositDetailTable bills={bills}></DepositDetailTable>
                     </div>
                 </div> : null}
