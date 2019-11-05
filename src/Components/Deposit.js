@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     },
     centerText: {
         textAlign: "center"
+    },
+    button: {
+        margin: "10px 5px 0px 5px"
     }
 }));
 
@@ -95,9 +98,10 @@ const Deposit = (props) => {
                     <div className={classes.centerText}>
                         <DepositTotals bills={bills}></DepositTotals>
                         <br></br>
-                        <hr></hr>
                         <br></br>
                         <DepositDetailTable bills={bills}></DepositDetailTable>
+                        <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+                        <Button className={classes.button} variant="contained" color="primary">Clear</Button>
                     </div>
                 </div> : null}
             </CardContent>
