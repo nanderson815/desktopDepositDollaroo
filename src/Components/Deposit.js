@@ -36,6 +36,7 @@ let headerCount = 0;
 
 const Deposit = (props) => {
     const classes = useStyles();
+    console.log(props)
 
     // Manages the deposit flow using step system.
     const [step, setStep] = React.useState(1)
