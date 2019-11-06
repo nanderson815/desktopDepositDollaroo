@@ -114,8 +114,8 @@ const Deposit = (props) => {
                             <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                             <div className={classes.centerText}>
                                 <DepositDetailTable bills={bills}></DepositDetailTable>
-                                <Button className={classes.button} variant="contained" color="primary" onClick={() => DepositFuncs.submitTran(bills, props.firebase)}>Submit</Button>
-                                <Button className={classes.button} variant="contained" color="primary" onClick={clearState}>Clear</Button>
+                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={() => DepositFuncs.submitTran(bills, props.firebase)}>Submit</Button>
+                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={clearState}>Clear</Button>
                             </div>
                         </div> : null}
                     </CardContent>
