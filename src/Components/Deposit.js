@@ -58,6 +58,10 @@ const Deposit = (props) => {
 
     const [bills, setBills] = React.useState([]);
 
+    const clearState = () => {
+        setBills([]);
+    };
+
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
@@ -111,7 +115,7 @@ const Deposit = (props) => {
                             <div className={classes.centerText}>
                                 <DepositDetailTable bills={bills}></DepositDetailTable>
                                 <Button className={classes.button} variant="contained" color="primary">Submit</Button>
-                                <Button className={classes.button} variant="contained" color="primary">Clear</Button>
+                                <Button className={classes.button} variant="contained" color="primary" onClick={clearState}>Clear</Button>
                             </div>
                         </div> : null}
                     </CardContent>
