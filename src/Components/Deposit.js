@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import DepositDetailTable from './DepositTables/DepositDetail';
 import DepositTotals from './DepositTables/DepositTotals';
 import { Grid } from '@material-ui/core';
+import DepositFuncs from './DepositFuncs';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -69,7 +70,6 @@ const Deposit = (props) => {
             if (message === "AccuBANKER Station  S6500") {
                 headerCount = 0;
             }
-            console.log(message);
             headerCount++;
             // First five lines are not realted to bills.
             if (headerCount > 5) {
@@ -114,7 +114,7 @@ const Deposit = (props) => {
                             <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                             <div className={classes.centerText}>
                                 <DepositDetailTable bills={bills}></DepositDetailTable>
-                                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+                                <Button className={classes.button} variant="contained" color="primary" onClick={() => DepositFuncs.submitTran(bills, props.firebase)}>Submit</Button>
                                 <Button className={classes.button} variant="contained" color="primary" onClick={clearState}>Clear</Button>
                             </div>
                         </div> : null}

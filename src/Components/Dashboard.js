@@ -50,7 +50,7 @@ const Dashboard = (props) => {
                             <h1>{values.company}</h1>
                             {values.port ? <div>
                                 <p>{`Connected to ${values.port}`}</p>
-                                <Deposit firestore={props.firebase.firestore} port={values.port}></Deposit>
+                                <Deposit firebase={props.firebase} port={values.port}></Deposit>
                             </div>
                                 : null}
                             {!values.port ? <ConnectScanner port={values.port} select={handleChange}></ConnectScanner> : null}
