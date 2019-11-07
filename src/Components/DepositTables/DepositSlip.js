@@ -18,6 +18,15 @@ const useStyles = makeStyles(theme => ({
 const DepositTotals = (props) => {
     const classes = useStyles()
 
+    // Coin Data
+    const [coins, setCoins] = React.useState({});
+
+    const handleChange = event => {
+        setCoins({ ...coins, [event.target.name]: event.target.value });
+    }
+
+
+    // Bills data.
     let ones = props.bills ? props.bills.filter(x => x.denomination == 1).length : 0;
     let twos = props.bills ? props.bills.filter(x => x.denomination == 2).length : 0;
     let fives = props.bills ? props.bills.filter(x => x.denomination == 5).length : 0;
@@ -42,20 +51,23 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell>Pennies</TableCell>
                         <TableCell><TextField
-                            id="outlined-number"
+                            id="pennies"
+                            name='pennies'
                             label="Pennies"
                             type="number"
                             className={classes.textField}
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            value={coins.pennies}
+                            onChange={handleChange}
                             margin="dense"
                             variant="outlined"
                         /></TableCell>
-                        <TableCell>${ones * .01}</TableCell>
+                        <TableCell>${(coins.pennies * .01).toFixed(2)}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Nickles</TableCell>
+                        <TableCell>Nickels</TableCell>
                         <TableCell><TextField
                             id="outlined-number"
                             label="Nickels"
