@@ -15,14 +15,15 @@ const useStyles = makeStyles(theme => ({
 const DepositTotals = (props) => {
     const classes = useStyles()
 
-    let ones = props.bills.filter(x => x.denomination == 1).length;
-    let twos = props.bills.filter(x => x.denomination == 2).length;
-    let fives = props.bills.filter(x => x.denomination == 5).length;
-    let tens = props.bills.filter(x => x.denomination == 10).length;
-    let twenties = props.bills.filter(x => x.denomination == 20).length;
-    let fifties = props.bills.filter(x => x.denomination == 50).length;
-    let hundreds = props.bills.filter(x => x.denomination == 100).length;
+    let ones = props.bills ? props.bills.filter(x => x.denomination == 1).length : 0;
+    let twos = props.bills ? props.bills.filter(x => x.denomination == 2).length : 0;
+    let fives = props.bills ? props.bills.filter(x => x.denomination == 5).length : 0;
+    let tens = props.bills ? props.bills.filter(x => x.denomination == 10).length : 0;
+    let twenties = props.bills ? props.bills.filter(x => x.denomination == 20).length : 0;
+    let fifties = props.bills ? props.bills.filter(x => x.denomination == 50).length : 0;
+    let hundreds = props.bills ? props.bills.filter(x => x.denomination == 100).length : 0;
     let total = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
+
 
     return (
         <Table size="small">

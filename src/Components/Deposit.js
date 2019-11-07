@@ -67,9 +67,9 @@ const Deposit = (props) => {
     const [deposit, setDeposit] = React.useState([]);
 
     const submitFunc = async () => {
-        let depositBills = await DepositFuncs.submitTran(bills, props.firebase);
-        console.log(depositBills);
-
+        let depositBills = await DepositFuncs.checkDuplicates(bills, props.firebase);
+        nextStep()
+        setDeposit(depositBills);
     }
 
     // Adds and removes listener on Re-render. Critial to remove.
@@ -104,33 +104,35 @@ const Deposit = (props) => {
 
     return (
         <Grid container className={classes.root} spacing={2}>
-            <Grid item xs={6}>
-                <Card>
-                    <CardContent>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Make a Remote Deposit
+            {step < 3 ?
+                <Grid item xs={6}>
+                    <Card>
+                        <CardContent>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                Make a Remote Deposit
         </Typography>
-                        <hr></hr>
-                        {step === 1 ? <div>
-                            <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                                Step 1</Typography>
-                            <p>Make sure the S6500 is on "Mix" mode. Select Acknowledge and being counting.</p>
-                            <Button onClick={openPort}>Acknowledge</Button>
-                        </div> : null}
-                        {step === 2 ? <div>
-                            <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                                Step 2</Typography>
-                            <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
-                            <div className={classes.centerText}>
-                                <DepositDetailTable bills={bills}></DepositDetailTable>
-                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={submitFunc}>Validate</Button>
-                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={clearState}>Clear</Button>
-                            </div>
-                        </div> : null}
+                            <hr></hr>
+                            {step === 1 ? <div>
+                                <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                                    Step 1</Typography>
+                                <p>Make sure the S6500 is on "Mix" mode. Select Acknowledge and being counting.</p>
+                                <Button onClick={openPort}>Acknowledge</Button>
+                            </div> : null}
+                            {step === 2 ? <div>
+                                <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                                    Step 2</Typography>
+                                <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
+                                <div className={classes.centerText}>
+                                    <DepositDetailTable bills={bills}></DepositDetailTable>
+                                    <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={submitFunc}>Validate</Button>
+                                    <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={clearState}>Clear</Button>
+                                </div>
+                            </div> : null}
 
-                    </CardContent>
-                </Card>
-            </Grid>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                : null}
             {step === 2 ?
                 <Grid item xs={6}>
                     <Card>
@@ -141,15 +143,25 @@ const Deposit = (props) => {
                 </Grid>
                 : null
             }
-            {deposit.duplicates && deposit.duplicates.length > 0 ? <div>
+            {step === 3 ?
                 <Grid item xs={6}>
                     <Card>
                         <CardContent>
-                            <DuplicateBills duplicates={deposit.duplicates}></DuplicateBills>
+                            {deposit.duplicates && deposit.duplicates.length > 0 ?
+                                <div>
+                                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
+                                        These bills were already submitted to Dollaroo, and will not be included in the remote deposit.</Typography>
+                                    <DuplicateBills deposit={deposit}></DuplicateBills>
+                                    <p>Your updated remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
+                                </div>
+                                : <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
+                            <div className={classes.centerText}>
+                                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+                            </div>
                         </CardContent>
                     </Card>
                 </Grid>
-            </div> : null}
+                : null}
         </Grid>
     )
 }

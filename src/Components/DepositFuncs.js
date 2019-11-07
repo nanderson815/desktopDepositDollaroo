@@ -17,7 +17,7 @@
 //     return sorted;
 // };
 
-const submitTran = async (bills, firebase) => {
+const checkDuplicates = async (bills, firebase) => {
     let db = firebase.firestore()
     const billArray = bills.map(async bill => {
         let docRef = db.collection('submittedBills').doc(bill.serial);
@@ -28,9 +28,13 @@ const submitTran = async (bills, firebase) => {
         return bill
     });
     const sorted = await Promise.all(billArray);
-    return sorted
+    let uniques = sorted.filter(bill => bill.duplicate === false);
+    let duplicates = sorted.filter(bill => bill.duplicate === true);
+    let sortedBills = { duplicates, uniques }
+
+    return sortedBills;
 }
 
 module.exports = {
-    submitTran: submitTran
+    checkDuplicates: checkDuplicates
 }

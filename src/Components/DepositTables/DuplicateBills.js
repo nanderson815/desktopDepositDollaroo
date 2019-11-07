@@ -7,24 +7,22 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-        overflowX: 'auto',
+    table: {
+        minWidth: 300,
+        width: "100%"
     },
 }));
 
 
 export default function DuplicateBills(props) {
     const classes = useStyles();
-    let rows = props.duplicates
+    let rows = props.deposit.duplicates
 
     return (
-        <Table className={classes.table} aria-label="caption table">
-            <caption>These bills were already submitted to Dollaroo.</caption>
+        <Table className={classes.table} size="small" aria-label="caption table">
             <TableHead>
                 <TableRow>
-                    <TableCell>Count</TableCell>
+                    <TableCell>Position</TableCell>
                     <TableCell align="right">Denomination</TableCell>
                     <TableCell align="right">Serial Number</TableCell>
                 </TableRow>
