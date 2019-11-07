@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import DepositDetailTable from './DepositTables/DepositDetail';
 import DepositTotals from './DepositTables/DepositTotals';
 import DuplicateBills from './DepositTables/DuplicateBills';
+import DepositSlip from './DepositTables/DepositSlip';
 import { Grid } from '@material-ui/core';
 import DepositFuncs from './DepositFuncs';
 
@@ -28,6 +29,10 @@ const useStyles = makeStyles(theme => ({
     },
     subTitle: {
         fontSize: 14
+    },
+    boldTitle: {
+        fontSize: 14,
+        color: "black"
     },
     centerText: {
         textAlign: "center"
@@ -78,6 +83,7 @@ const Deposit = (props) => {
             // Resets count to avoid passing in text data.
             if (message === "AccuBANKER Station  S6500") {
                 headerCount = 0;
+                setBills([]);
             }
             headerCount++;
             // First five lines are not realted to bills.
@@ -149,12 +155,13 @@ const Deposit = (props) => {
                         <CardContent>
                             {deposit.duplicates && deposit.duplicates.length > 0 ?
                                 <div>
-                                    <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
-                                        These bills were already submitted to Dollaroo, and will not be included in the remote deposit.</Typography>
+                                    <p>Duplicate bills were found! These bills were already submitted to Dollaroo, and will not be included in the remote deposit.</p>
                                     <DuplicateBills deposit={deposit}></DuplicateBills>
+                                    <hr></hr>
                                     <p>Your updated remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
                                 </div>
                                 : <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
+                            <DepositSlip bills={deposit.uniques}></DepositSlip>
                             <div className={classes.centerText}>
                                 <Button className={classes.button} variant="contained" color="primary">Submit</Button>
                             </div>
