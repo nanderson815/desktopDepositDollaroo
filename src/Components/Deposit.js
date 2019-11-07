@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DepositDetailTable from './DepositTables/DepositDetail';
 import DepositTotals from './DepositTables/DepositTotals';
+import DuplicateBills from './DepositTables/DuplicateBills';
 import { Grid } from '@material-ui/core';
 import DepositFuncs from './DepositFuncs';
 
@@ -63,6 +64,14 @@ const Deposit = (props) => {
         setBills([]);
     };
 
+    const [deposit, setDeposit] = React.useState([]);
+
+    const submitFunc = async () => {
+        let depositBills = await DepositFuncs.submitTran(bills, props.firebase);
+        console.log(depositBills);
+
+    }
+
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
         window.ipcRenderer.on('data', (event, message) => {
@@ -114,10 +123,11 @@ const Deposit = (props) => {
                             <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                             <div className={classes.centerText}>
                                 <DepositDetailTable bills={bills}></DepositDetailTable>
-                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={() => DepositFuncs.submitTran(bills, props.firebase)}>Submit</Button>
+                                <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={submitFunc}>Validate</Button>
                                 <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={clearState}>Clear</Button>
                             </div>
                         </div> : null}
+
                     </CardContent>
                 </Card>
             </Grid>
@@ -131,6 +141,15 @@ const Deposit = (props) => {
                 </Grid>
                 : null
             }
+            {deposit.duplicates && deposit.duplicates.length > 0 ? <div>
+                <Grid item xs={6}>
+                    <Card>
+                        <CardContent>
+                            <DuplicateBills duplicates={deposit.duplicates}></DuplicateBills>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </div> : null}
         </Grid>
     )
 }
