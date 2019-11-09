@@ -26,8 +26,19 @@ const DepositTotals = (props) => {
         quarters: 0
     });
 
+    // Error validation
+    const [errorText, setErrorText] = React.useState({})
+
     const handleChange = event => {
-        setCoins({ ...coins, [event.target.name]: parseInt(event.target.value) });
+        let num = parseInt(event.target.value)
+        if (num < 0 || !num) {
+            num = 0
+        } else if (num > 200) {
+            setErrorText({ ...errorText, [event.target.name]: '200 Coin Maximum.' });
+        } else {
+            setErrorText({ ...errorText, [event.target.name]: '' });
+        }
+        setCoins({ ...coins, [event.target.name]: num });
     }
 
 
@@ -56,6 +67,8 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell>Pennies</TableCell>
                         <TableCell><TextField
+                            error={!!errorText.pennies}
+                            helperText={errorText.pennies}
                             id="pennies"
                             name='pennies'
                             label="Pennies"
@@ -68,12 +81,15 @@ const DepositTotals = (props) => {
                             onChange={handleChange}
                             margin="dense"
                             variant="outlined"
+                            min="0"
                         /></TableCell>
                         <TableCell>${(coins.pennies * .01).toFixed(2)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>Nickels</TableCell>
                         <TableCell><TextField
+                            error={!!errorText.nickels}
+                            helperText={errorText.nickels}
                             id="nickels"
                             name='nickels'
                             label="Nickels"
@@ -92,6 +108,8 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell>Dimes</TableCell>
                         <TableCell><TextField
+                            error={!!errorText.dimes}
+                            helperText={errorText.dimes}
                             id="dimes"
                             name='dimes'
                             label="Dimes"
@@ -110,6 +128,8 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell>Quarters</TableCell>
                         <TableCell><TextField
+                            error={!!errorText.quarters}
+                            helperText={errorText.quarters}
                             id="quarters"
                             name='quarters'
                             label="Quarters"
