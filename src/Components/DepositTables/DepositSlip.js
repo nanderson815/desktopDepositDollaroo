@@ -27,7 +27,7 @@ const DepositTotals = (props) => {
     });
 
     const handleChange = event => {
-        setCoins({ ...coins, [event.target.name]: event.target.value.toIn });
+        setCoins({ ...coins, [event.target.name]: parseInt(event.target.value) });
     }
 
 
