@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 import React from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter, TextField } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -11,7 +11,11 @@ const useStyles = makeStyles(theme => ({
     },
     textField: {
         width: 100,
-    }
+    },
+    centerText: {
+        marginTop: 10,
+        textAlign: "center"
+    },
 }));
 
 
@@ -210,6 +214,9 @@ const DepositTotals = (props) => {
                     </TableRow>
                 </TableFooter>
             </Table>
+            <div className={classes.centerText}>
+                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+            </div>
         </div>
     )
 }

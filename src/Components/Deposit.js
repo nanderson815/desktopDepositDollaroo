@@ -162,9 +162,6 @@ const Deposit = (props) => {
                                 </div>
                                 : <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
                             <DepositSlip bills={deposit.uniques}></DepositSlip>
-                            <div className={classes.centerText}>
-                                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
-                            </div>
                         </CardContent>
                     </Card>
                 </Grid>

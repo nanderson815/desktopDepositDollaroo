@@ -1,22 +1,4 @@
-
-
-// const checkBills = (bills, db) => {
-//     let duplicates = [];
-//     let unique = [];
-
-//     for (const bill of bills) {
-//         let docRef = db.collection('submittedBills').doc(bill.serial);
-//         docRef.get().then((doc) => {
-//             if (doc.exists) {
-//                 duplicates.push(bill);
-//             } else {
-//                 unique.push(bill)
-//             }
-//         })
-//     }
-//     return sorted;
-// };
-
+// Checks the DB to make sure bills are unique.
 const checkDuplicates = async (bills, firebase) => {
     let db = firebase.firestore()
     const billArray = bills.map(async bill => {
@@ -33,6 +15,27 @@ const checkDuplicates = async (bills, firebase) => {
     let sortedBills = { duplicates, uniques }
 
     return sortedBills;
+};
+
+const addBills = async (bills, company, firebase) => {
+    let db = firebase.firestore()
+    let batch = db.batch()
+    for (let bill of bills) {
+        let data = {
+            company: company,
+            denomination: bill.denomination,
+            serial: bill.serial,
+            time: firebase.Timestamp(Date())
+        }
+        let docRef = db.collection('submittedBills').doc(bill.serial);
+        batch.set(docRef, { data });
+    }
+    let message = await batch.commit().then(() => {
+        return "Batch written with no errors!"
+    }).catch(err => err)
+
+    return message;
+
 }
 
 module.exports = {
