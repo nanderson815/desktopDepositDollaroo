@@ -19,7 +19,12 @@ const DepositTotals = (props) => {
     const classes = useStyles()
 
     // Coin Data
-    const [coins, setCoins] = React.useState({});
+    const [coins, setCoins] = React.useState({
+        pennies: 0,
+        nickels: 0,
+        dimes: 0,
+        quarters: 0
+    });
 
     const handleChange = event => {
         setCoins({ ...coins, [event.target.name]: event.target.value });
