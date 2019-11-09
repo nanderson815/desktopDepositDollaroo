@@ -27,7 +27,7 @@ const DepositTotals = (props) => {
     });
 
     const handleChange = event => {
-        setCoins({ ...coins, [event.target.name]: event.target.value });
+        setCoins({ ...coins, [event.target.name]: event.target.value.toIn });
     }
 
 
@@ -74,7 +74,8 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell>Nickels</TableCell>
                         <TableCell><TextField
-                            id="outlined-number"
+                            id="nickels"
+                            name='nickels'
                             label="Nickels"
                             type="number"
                             className={classes.textField}
@@ -83,13 +84,16 @@ const DepositTotals = (props) => {
                             }}
                             margin="dense"
                             variant="outlined"
+                            onChange={handleChange}
+                            value={coins.nickels}
                         /></TableCell>
-                        <TableCell>${ones * .05}</TableCell>
+                        <TableCell>${(coins.nickels * .05).toFixed(2)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>Dimes</TableCell>
                         <TableCell><TextField
-                            id="outlined-number"
+                            id="dimes"
+                            name='dimes'
                             label="Dimes"
                             type="number"
                             className={classes.textField}
@@ -98,13 +102,16 @@ const DepositTotals = (props) => {
                             }}
                             margin="dense"
                             variant="outlined"
+                            onChange={handleChange}
+                            value={coins.dimes}
                         /></TableCell>
-                        <TableCell>${ones * .1}</TableCell>
+                        <TableCell>${(coins.dimes * .1).toFixed(2)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>Quarters</TableCell>
                         <TableCell><TextField
-                            id="outlined-number"
+                            id="quarters"
+                            name='quarters'
                             label="Quarters"
                             type="number"
                             className={classes.textField}
@@ -113,15 +120,17 @@ const DepositTotals = (props) => {
                             }}
                             margin="dense"
                             variant="outlined"
+                            onChange={handleChange}
+                            value={coins.quarters}
                         /></TableCell>
-                        <TableCell>${ones * .25}</TableCell>
+                        <TableCell>${(coins.quarters * .25).toFixed(2)}</TableCell>
                     </TableRow>
                 </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TableCell className={classes.totalRow}>Total Coins</TableCell>
-                        <TableCell className={classes.totalRow}>{props.bills ? props.bills.length : 0}</TableCell>
-                        <TableCell className={classes.totalRow}>${total}</TableCell>
+                        <TableCell className={classes.totalRow}>{coins.pennies + coins.nickels + coins.dimes + coins.quarters}</TableCell>
+                        <TableCell className={classes.totalRow}>${((coins.pennies * .01) + (coins.nickels * .05) + (coins.dimes * .1) + (coins.quarters * .25)).toFixed(2)}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
