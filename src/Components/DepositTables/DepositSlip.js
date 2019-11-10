@@ -2,6 +2,7 @@
 import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import DepositFuncs from '../DepositFuncs';
 
 const useStyles = makeStyles(theme => ({
     totalRow: {
@@ -30,6 +31,8 @@ const DepositTotals = (props) => {
         quarters: 0
     });
 
+    let coinTotal = ((coins.pennies * .01) + (coins.nickels * .05) + (coins.dimes * .1) + (coins.quarters * .25)).toFixed(2);
+
     // Error validation
     const [errorText, setErrorText] = React.useState({})
 
@@ -45,7 +48,6 @@ const DepositTotals = (props) => {
         setCoins({ ...coins, [event.target.name]: num });
     }
 
-
     // Bills data.
     let ones = props.bills ? props.bills.filter(x => x.denomination == 1).length : 0;
     let twos = props.bills ? props.bills.filter(x => x.denomination == 2).length : 0;
@@ -54,7 +56,16 @@ const DepositTotals = (props) => {
     let twenties = props.bills ? props.bills.filter(x => x.denomination == 20).length : 0;
     let fifties = props.bills ? props.bills.filter(x => x.denomination == 50).length : 0;
     let hundreds = props.bills ? props.bills.filter(x => x.denomination == 100).length : 0;
-    let total = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
+    let billTotal = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
+
+    const handleSubmit = () => {
+        // 1. Validate deposit or throw error if issue.
+        let valid = DepositFuncs.validateDeposit(billTotal, coinTotal, coins)
+        console.log(valid);
+        // 2. Add bills to database.
+        // 3. Add deposit to customer database. 
+
+    }
 
     return (
         <div>
@@ -154,7 +165,7 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell className={classes.totalRow}>Total Coins</TableCell>
                         <TableCell className={classes.totalRow}>{coins.pennies + coins.nickels + coins.dimes + coins.quarters}</TableCell>
-                        <TableCell className={classes.totalRow}>${((coins.pennies * .01) + (coins.nickels * .05) + (coins.dimes * .1) + (coins.quarters * .25)).toFixed(2)}</TableCell>
+                        <TableCell className={classes.totalRow}>${coinTotal}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
@@ -210,12 +221,12 @@ const DepositTotals = (props) => {
                     <TableRow>
                         <TableCell className={classes.totalRow}>Total Bills</TableCell>
                         <TableCell className={classes.totalRow}>{props.bills ? props.bills.length : 0}</TableCell>
-                        <TableCell className={classes.totalRow}>${total}</TableCell>
+                        <TableCell className={classes.totalRow}>${billTotal}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
             <div className={classes.centerText}>
-                <Button className={classes.button} variant="contained" color="primary">Submit</Button>
+                <Button onClick={handleSubmit} className={classes.button} variant="contained" color="primary">Submit</Button>
             </div>
         </div>
     )

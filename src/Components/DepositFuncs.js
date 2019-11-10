@@ -17,6 +17,16 @@ const checkDuplicates = async (bills, firebase) => {
     return sortedBills;
 };
 
+const validateDeposit = (billTotal, cointTotal, coins) => {
+    // Check to make sure coins are less than 200 each.
+    let validCount = Object.values(coins).every(coin => coin <= 200);
+    // Check if value of bills greater than coins.
+    let validAmount = billTotal > cointTotal
+
+    return validCount && validAmount
+
+}
+
 const addBills = async (bills, company, firebase) => {
     let db = firebase.firestore()
     let batch = db.batch()
@@ -39,5 +49,6 @@ const addBills = async (bills, company, firebase) => {
 }
 
 module.exports = {
-    checkDuplicates: checkDuplicates
+    checkDuplicates: checkDuplicates,
+    validateDeposit: validateDeposit
 }
