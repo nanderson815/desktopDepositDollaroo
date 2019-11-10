@@ -161,7 +161,7 @@ const Deposit = (props) => {
                                     <p>Your updated remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
                                 </div>
                                 : <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
-                            <DepositSlip bills={deposit.uniques}></DepositSlip>
+                            <DepositSlip bills={deposit.uniques} company={props.company} firebase={props.firebase}></DepositSlip>
                         </CardContent>
                     </Card>
                 </Grid>

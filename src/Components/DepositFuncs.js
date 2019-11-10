@@ -50,5 +50,6 @@ const addBills = async (bills, company, firebase) => {
 
 module.exports = {
     checkDuplicates: checkDuplicates,
-    validateDeposit: validateDeposit
+    validateDeposit: validateDeposit,
+    addBills: addBills
 }

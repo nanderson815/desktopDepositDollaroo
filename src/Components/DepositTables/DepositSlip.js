@@ -17,10 +17,14 @@ const useStyles = makeStyles(theme => ({
         marginTop: 10,
         textAlign: "center"
     },
+    errorText: {
+        color: "red"
+    }
 }));
 
 
 const DepositTotals = (props) => {
+    console.log(props)
     const classes = useStyles()
 
     // Coin Data
@@ -63,6 +67,12 @@ const DepositTotals = (props) => {
         let valid = DepositFuncs.validateDeposit(billTotal, coinTotal, coins)
         console.log(valid);
         // 2. Add bills to database.
+        if (valid) {
+            let logged = DepositFuncs.addBills(props.bills)
+            console.log(logged);
+        } else {
+            setErrorText({ ...errorText, submit: "Too many coins or coin value exceeds bill value." })
+        }
         // 3. Add deposit to customer database. 
 
     }
@@ -227,6 +237,7 @@ const DepositTotals = (props) => {
             </Table>
             <div className={classes.centerText}>
                 <Button onClick={handleSubmit} className={classes.button} variant="contained" color="primary">Submit</Button>
+                <p className={classes.errorText}>{errorText.submit ? errorText.submit : null}</p>
             </div>
         </div>
     )
