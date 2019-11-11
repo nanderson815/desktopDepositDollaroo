@@ -59,6 +59,10 @@ const DepositTotals = (props) => {
     let twenties = props.bills ? props.bills.filter(x => x.denomination == 20).length : 0;
     let fifties = props.bills ? props.bills.filter(x => x.denomination == 50).length : 0;
     let hundreds = props.bills ? props.bills.filter(x => x.denomination == 100).length : 0;
+    let sortedBills = {
+        ones: ones,
+        twos: twos,
+    }
     let billTotal = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
 
     const handleSubmit = async () => {
@@ -69,11 +73,13 @@ const DepositTotals = (props) => {
         if (valid) {
             let logged = await DepositFuncs.addBills(props.bills, props.company, props.firestore)
             console.log(logged);
+            // 3. Add deposit to customer database.
+            if (logged) {
+
+            }
         } else {
             setErrorText({ ...errorText, submit: "Too many coins or coin value exceeds bill value." })
         }
-        // 3. Add deposit to customer database. 
-
     }
 
     return (

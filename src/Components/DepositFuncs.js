@@ -17,18 +17,42 @@ const checkDuplicates = async (bills, firestore) => {
     return sortedBills;
 };
 
-const validateDeposit = (billTotal, cointTotal, coins) => {
+const validateDeposit = (billTotal, coinTotal, coins) => {
     // Check to make sure coins are less than 200 each.
     let validCount = Object.values(coins).every(coin => coin <= 200);
     // Check if value of bills greater than coins.
-    let validAmount = billTotal > cointTotal
+    let validAmount = billTotal > coinTotal
 
     return validCount && validAmount
 
 }
 
+// Adds deposit info to the customer deposit. 
+const submitDeposit = async (billTotal, coinTotal, bills, coins, company, email, location, firestore) => {
+    let db = firestore;
+    let data = {
+        amount: billTotal + coinTotal,
+        company: company,
+        email: email,
+            location: location,
+        status: "submitted",
+            time: new Date(),
+        pennies: coins.pennies,
+            nickels: coins.nickels,
+        dimes: coins.dimes,
+            quarters: coins.quarters,
+        ones: bills.ones
+            twos:
+        fives:
+            tens:
+        twenties:
+            hundreds:
+    }
+}
+
+// Adds bills to the submitted bill database.
 const addBills = async (bills, company, firestore) => {
-    let db = firestore
+    let db = firestore;
     let batch = db.batch()
     for (let bill of bills) {
         let data = {
@@ -41,7 +65,7 @@ const addBills = async (bills, company, firestore) => {
         batch.set(docRef, { data });
     }
     let message = await batch.commit().then(() => {
-        return "Batch written with no errors!"
+        return true
     }).catch(err => err)
 
     return message;
