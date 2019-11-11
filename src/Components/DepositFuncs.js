@@ -35,7 +35,7 @@ const addBills = async (bills, company, firebase) => {
             company: company,
             denomination: bill.denomination,
             serial: bill.serial,
-            time: firebase.Timestamp(Date())
+            time: firebase.firestore.FieldValue.serverTimestamp()
         }
         let docRef = db.collection('submittedBills').doc(bill.serial);
         batch.set(docRef, { data });

@@ -53,6 +53,7 @@ const Deposit = (props) => {
     const nextStep = () => {
         setStep(step + 1)
     };
+    console.log(step)
 
     // Opens the port. Required.
     const openPort = () => {
@@ -108,6 +109,37 @@ const Deposit = (props) => {
         }
     }, [bills])
 
+    const resetState = () => {
+        setStep(1);
+        setBills([]);
+        setDeposit([]);
+    }
+
+    const renderDuplicates = () => {
+        if (deposit.duplicates && deposit.duplicates.length > 0) {
+            return <div>
+                <p>Duplicate bills were found! These bills were already submitted to Dollaroo, and will not be included in the remote deposit.</p>
+                <DuplicateBills deposit={deposit}></DuplicateBills>
+                <hr></hr>
+            </div>
+        }
+
+    }
+
+    const renderUniques = () => {
+        if (deposit.uniques && deposit.uniques.length > 0) {
+            return <div>
+                <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
+                            <DepositSlip bills={deposit.uniques} company={props.company} firebase={props.firebase}></DepositSlip>
+            </div>
+        } else {
+            return <div>
+                <p>No unique bills were found.</p>
+                <Button onClick={resetState}>Cancel Deposit</Button>
+            </div>
+        }
+    }
+
     return (
         <Grid container className={classes.root} spacing={2}>
             {step < 3 ?
@@ -153,15 +185,12 @@ const Deposit = (props) => {
                 <Grid item xs={6}>
                     <Card>
                         <CardContent>
-                            {deposit.duplicates && deposit.duplicates.length > 0 ?
-                                <div>
-                                    <p>Duplicate bills were found! These bills were already submitted to Dollaroo, and will not be included in the remote deposit.</p>
-                                    <DuplicateBills deposit={deposit}></DuplicateBills>
-                                    <hr></hr>
-                                    <p>Your updated remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
-                                </div>
-                                : <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
-                            <DepositSlip bills={deposit.uniques} company={props.company} firebase={props.firebase}></DepositSlip>
+                            <div>
+                                {renderDuplicates()}
+                            </div>
+                            <div>
+                                {renderUniques()}
+                            </div>
                         </CardContent>
                     </Card>
                 </Grid>

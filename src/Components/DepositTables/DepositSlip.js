@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
 
 
 const DepositTotals = (props) => {
-    console.log(props)
     const classes = useStyles()
 
     // Coin Data
@@ -62,13 +61,13 @@ const DepositTotals = (props) => {
     let hundreds = props.bills ? props.bills.filter(x => x.denomination == 100).length : 0;
     let billTotal = (ones) + (twos * 2) + (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hundreds * 100);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // 1. Validate deposit or throw error if issue.
         let valid = DepositFuncs.validateDeposit(billTotal, coinTotal, coins)
         console.log(valid);
         // 2. Add bills to database.
         if (valid) {
-            let logged = DepositFuncs.addBills(props.bills)
+            let logged = await DepositFuncs.addBills(props.bills, props.company, props.firebase)
             console.log(logged);
         } else {
             setErrorText({ ...errorText, submit: "Too many coins or coin value exceeds bill value." })
@@ -236,7 +235,7 @@ const DepositTotals = (props) => {
                 </TableFooter>
             </Table>
             <div className={classes.centerText}>
-                <Button onClick={handleSubmit} className={classes.button} variant="contained" color="primary">Submit</Button>
+                <Button disabled={billTotal <= 0} onClick={handleSubmit} className={classes.button} variant="contained" color="primary">Submit</Button>
                 <p className={classes.errorText}>{errorText.submit ? errorText.submit : null}</p>
             </div>
         </div>
