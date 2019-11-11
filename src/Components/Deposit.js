@@ -10,6 +10,7 @@ import DuplicateBills from './DepositTables/DuplicateBills';
 import DepositSlip from './DepositTables/DepositSlip';
 import { Grid } from '@material-ui/core';
 import DepositFuncs from './DepositFuncs';
+import { withFirestore } from 'react-redux-firebase';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,7 +74,7 @@ const Deposit = (props) => {
     const [deposit, setDeposit] = React.useState([]);
 
     const submitFunc = async () => {
-        let depositBills = await DepositFuncs.checkDuplicates(bills, props.firebase);
+        let depositBills = await DepositFuncs.checkDuplicates(bills, props.firestore);
         nextStep()
         setDeposit(depositBills);
     }
@@ -130,7 +131,7 @@ const Deposit = (props) => {
         if (deposit.uniques && deposit.uniques.length > 0) {
             return <div>
                 <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
-                            <DepositSlip bills={deposit.uniques} company={props.company} firebase={props.firebase}></DepositSlip>
+                            <DepositSlip bills={deposit.uniques} company={props.company} firestore={props.firestore}></DepositSlip>
             </div>
         } else {
             return <div>
@@ -199,4 +200,4 @@ const Deposit = (props) => {
     )
 }
 
-export default Deposit;
+export default withFirestore(Deposit);

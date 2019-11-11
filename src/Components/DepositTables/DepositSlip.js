@@ -67,7 +67,7 @@ const DepositTotals = (props) => {
         console.log(valid);
         // 2. Add bills to database.
         if (valid) {
-            let logged = await DepositFuncs.addBills(props.bills, props.company, props.firebase)
+            let logged = await DepositFuncs.addBills(props.bills, props.company, props.firestore)
             console.log(logged);
         } else {
             setErrorText({ ...errorText, submit: "Too many coins or coin value exceeds bill value." })

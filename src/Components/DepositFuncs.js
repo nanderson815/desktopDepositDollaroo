@@ -1,6 +1,6 @@
 // Checks the DB to make sure bills are unique.
-const checkDuplicates = async (bills, firebase) => {
-    let db = firebase.firestore()
+const checkDuplicates = async (bills, firestore) => {
+    let db = firestore
     const billArray = bills.map(async bill => {
         let docRef = db.collection('submittedBills').doc(bill.serial);
         const duplicate = await docRef.get().then(doc => {
@@ -27,15 +27,15 @@ const validateDeposit = (billTotal, cointTotal, coins) => {
 
 }
 
-const addBills = async (bills, company, firebase) => {
-    let db = firebase.firestore()
+const addBills = async (bills, company, firestore) => {
+    let db = firestore
     let batch = db.batch()
     for (let bill of bills) {
         let data = {
             company: company,
             denomination: bill.denomination,
             serial: bill.serial,
-            time: firebase.firestore.FieldValue.serverTimestamp()
+            time: new Date()
         }
         let docRef = db.collection('submittedBills').doc(bill.serial);
         batch.set(docRef, { data });
