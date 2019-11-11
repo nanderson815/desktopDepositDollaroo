@@ -54,7 +54,6 @@ const Deposit = (props) => {
     const nextStep = () => {
         setStep(step + 1)
     };
-    console.log(step)
 
     // Opens the port. Required.
     const openPort = () => {
