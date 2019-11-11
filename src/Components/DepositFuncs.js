@@ -28,26 +28,32 @@ const validateDeposit = (billTotal, coinTotal, coins) => {
 }
 
 // Adds deposit info to the customer deposit. 
-const submitDeposit = async (billTotal, coinTotal, bills, coins, company, email, location, firestore) => {
+const submitDeposit = async (billTotal, coinTotal, sortedBills, coins, company, email, location, firestore) => {
     let db = firestore;
     let data = {
         amount: billTotal + coinTotal,
         company: company,
         email: email,
-            location: location,
+        location: location,
         status: "submitted",
-            time: new Date(),
+        time: new Date(),
         pennies: coins.pennies,
-            nickels: coins.nickels,
+        nickels: coins.nickels,
         dimes: coins.dimes,
-            quarters: coins.quarters,
-        ones: bills.ones
-            twos:
-        fives:
-            tens:
-        twenties:
-            hundreds:
-    }
+        quarters: coins.quarters,
+        ones: sortedBills.ones,
+        twos: sortedBills.twos,
+        fives: sortedBills.fives,
+        tens: sortedBills.tens,
+        twenties: sortedBills.twenties,
+        hundreds: sortedBills.hundreds
+    };
+    let docRef = db.collection(company).doc(location).collection('deposits');
+    let message = await docRef.add(data).then(() => {
+        return true;
+    }).catch(err => err)
+
+    return message
 }
 
 // Adds bills to the submitted bill database.
@@ -75,5 +81,6 @@ const addBills = async (bills, company, firestore) => {
 module.exports = {
     checkDuplicates: checkDuplicates,
     validateDeposit: validateDeposit,
-    addBills: addBills
+    addBills: addBills,
+    submitDeposit: submitDeposit
 }
