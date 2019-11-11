@@ -30,8 +30,9 @@ const validateDeposit = (billTotal, coinTotal, coins) => {
 // Adds deposit info to the customer deposit. 
 const submitDeposit = async (billTotal, coinTotal, sortedBills, coins, company, email, location, firestore) => {
     let db = firestore;
+    let total = (parseFloat(billTotal) + parseFloat(coinTotal)).toFixed(2)
     let data = {
-        amount: billTotal + coinTotal,
+        amount: parseFloat(total),
         company: company,
         email: email,
         location: location,

@@ -28,7 +28,8 @@ const Dashboard = (props) => {
                     let company = idTokenResult.claims.company
                     let location = idTokenResult.claims.location
                     let name = idTokenResult.claims.name
-                    setValues({ company, location, name })
+                    let email = idTokenResult.claims.email
+                    setValues({ company, location, name, email })
                 })
                 .catch(err => console.log(err));
         }
@@ -50,7 +51,12 @@ const Dashboard = (props) => {
                             <h1>{values.company}</h1>
                             {values.port ? <div>
                                 <p>{`Connected to ${values.port}`}</p>
-                                <Deposit firebase={props.firebase} company={values.company} port={values.port}></Deposit>
+                                <Deposit
+                                    firebase={props.firebase}
+                                    company={values.company}
+                                    location={values.location}
+                                    email={values.email}
+                                    port={values.port}></Deposit>
                             </div>
                                 : null}
                             {!values.port ? <ConnectScanner port={values.port} select={handleChange}></ConnectScanner> : null}
