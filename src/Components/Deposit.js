@@ -12,6 +12,7 @@ import DepositConfirmation from './DepositTables/DepositConfirmation';
 import { Grid } from '@material-ui/core';
 import DepositFuncs from './DepositFuncs';
 import { withFirestore } from 'react-redux-firebase';
+const { ipcRenderer } = window.require("electron");
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -58,11 +59,11 @@ const Deposit = (props) => {
 
     // Opens the port. Required.
     const openPort = () => {
-        window.ipcRenderer.once('openPort', (event, arg) => {
+        ipcRenderer.once('openPort', (event, arg) => {
             console.log(arg)
             setStep(step + 1)
         })
-        window.ipcRenderer.send('openPort', props.port)
+        ipcRenderer.send('openPort', props.port)
     };
 
     // state for holding bills/clearing bills
@@ -84,7 +85,7 @@ const Deposit = (props) => {
 
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
-        window.ipcRenderer.on('data', (event, message) => {
+        ipcRenderer.on('data', (event, message) => {
             // Resets count to avoid passing in text data.
             if (message === "AccuBANKER Station  S6500") {
                 headerCount = 0;
@@ -109,7 +110,7 @@ const Deposit = (props) => {
             }
         });
         return () => {
-            window.ipcRenderer.removeAllListeners('data')
+            ipcRenderer.removeAllListeners('data')
         }
     }, [bills])
 

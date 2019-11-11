@@ -2,11 +2,11 @@ const Serial = require('./Serial/SerialPort');
 
 const electron = require('electron');
 const app = electron.app;
-const { ipcMain } = require('electron')
+const { ipcMain } = require('electron');
 const BrowserWindow = electron.BrowserWindow;
-const url = require('url')
 const path = require('path');
 const isDev = require('electron-is-dev');
+const url = require('url');
 
 ipcMain.on('getPorts', (event, arg) => {
     Serial.getPorts()
@@ -25,18 +25,19 @@ function createWindow() {
         width: 1280,
         height: 800,
         webPreferences: {
-            nodeIntegration: false,
-            preload: path.join(__dirname, '/src/preload.js')
+            nodeIntegration: true,
+            // preload: path.join(__dirname, '../src/preload.js')
+
         }
     });
-    mainWindow.loadURL(
-        process.env.ELECTRON_START_URL ||
+    mainWindow.loadURL(isDev ? 'http://localhost:3000' :
         url.format({
-            pathname: path.join(__dirname, '/public/index.html'),
+            pathname: path.join(__dirname, 'index.html'),
             protocol: 'file:',
             slashes: true
-        })
-    )
+        }));
+
+
     if (isDev) {
         // Open the DevTools.
         //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');

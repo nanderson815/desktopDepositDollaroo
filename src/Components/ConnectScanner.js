@@ -8,6 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+const { ipcRenderer } = window.require("electron");
+
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -35,14 +37,14 @@ const ConnectScanner = (props) => {
     })
 
     const getPorts = () => {
-        window.ipcRenderer.once('portList', (event, arg) => {
+        ipcRenderer.once('portList', (event, arg) => {
             if (arg.length > 0) {
                 setValues({ ...values, portOptions: arg })
             } else {
                 console.log("No scanner connected.")
             }
         })
-        window.ipcRenderer.send('getPorts', 'portsPlz')
+        ipcRenderer.send('getPorts', 'portsPlz')
     };
 
     return (

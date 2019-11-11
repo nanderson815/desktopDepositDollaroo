@@ -79,9 +79,11 @@ const addBills = async (bills, company, firestore) => {
 
 }
 
-module.exports = {
+const DepositFuncs = {
     checkDuplicates: checkDuplicates,
     validateDeposit: validateDeposit,
     addBills: addBills,
     submitDeposit: submitDeposit
 }
+
+export default DepositFuncs;
