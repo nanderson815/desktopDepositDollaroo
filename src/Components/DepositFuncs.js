@@ -47,6 +47,7 @@ const submitDeposit = async (billTotal, coinTotal, sortedBills, coins, company, 
         fives: sortedBills.fives,
         tens: sortedBills.tens,
         twenties: sortedBills.twenties,
+        fifties: sortedBills.fifties,
         hundreds: sortedBills.hundreds
     };
     let docRef = db.collection(company).doc(location).collection('deposits');
