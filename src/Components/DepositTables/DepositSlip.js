@@ -80,8 +80,12 @@ const DepositTotals = (props) => {
             console.log(logged);
             // 3. Add deposit to customer database.
             if (logged) {
-                let submitted = await DepositFuncs.submitDeposit(billTotal, coinTotal, sortedBills, coins, props.company, props.email, props.location, props.firestore);
-                console.log(submitted);
+                let total = await DepositFuncs.submitDeposit(billTotal, coinTotal, sortedBills, coins, props.company, props.email, props.location, props.firestore);
+                if (total) {
+                    props.completeDeposit(total);
+                } else {
+                    props.completeDeposit(0);
+                }
             }
         } else {
             setErrorText({ ...errorText, submit: "Too many coins or coin value exceeds bill value." })

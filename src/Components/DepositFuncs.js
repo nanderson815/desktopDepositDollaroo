@@ -51,7 +51,7 @@ const submitDeposit = async (billTotal, coinTotal, sortedBills, coins, company, 
     };
     let docRef = db.collection(company).doc(location).collection('deposits');
     let message = await docRef.add(data).then(() => {
-        return true;
+        return total;
     }).catch(err => err)
 
     return message

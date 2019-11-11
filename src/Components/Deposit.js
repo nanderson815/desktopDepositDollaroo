@@ -8,6 +8,7 @@ import DepositDetailTable from './DepositTables/DepositDetail';
 import DepositTotals from './DepositTables/DepositTotals';
 import DuplicateBills from './DepositTables/DuplicateBills';
 import DepositSlip from './DepositTables/DepositSlip';
+import DepositConfirmation from './DepositTables/DepositConfirmation';
 import { Grid } from '@material-ui/core';
 import DepositFuncs from './DepositFuncs';
 import { withFirestore } from 'react-redux-firebase';
@@ -64,19 +65,22 @@ const Deposit = (props) => {
         window.ipcRenderer.send('openPort', props.port)
     };
 
+    // state for holding bills/clearing bills
     const [bills, setBills] = React.useState([]);
-
     const clearState = () => {
         setBills([]);
     };
 
+    // deposit bills are unique/duplicates. Sorted by func.
     const [deposit, setDeposit] = React.useState([]);
-
     const submitFunc = async () => {
         let depositBills = await DepositFuncs.checkDuplicates(bills, props.firestore);
         nextStep()
         setDeposit(depositBills);
     }
+
+    // State for finalizing deposits.
+    const [depositAmount, setDepositAmount] = React.useState(0);
 
     // Adds and removes listener on Re-render. Critial to remove.
     useEffect(() => {
@@ -109,6 +113,7 @@ const Deposit = (props) => {
         }
     }, [bills])
 
+    // Resets state entirely when there are no unique bills.
     const resetState = () => {
         setStep(1);
         setBills([]);
@@ -123,19 +128,19 @@ const Deposit = (props) => {
                 <hr></hr>
             </div>
         }
-
     }
 
     const renderUniques = () => {
         if (deposit.uniques && deposit.uniques.length > 0) {
             return <div>
                 <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
-                            <DepositSlip 
-                            bills={deposit.uniques} 
-                            company={props.company} 
-                            location={props.location}
-                            email={props.email}
-                            firestore={props.firestore}></DepositSlip>
+                    <DepositSlip
+                    bills={deposit.uniques}
+                    company={props.company}
+                    location={props.location}
+                    email={props.email}
+                    completeDeposit={completeDeposit}
+                    firestore={props.firestore}></DepositSlip>
             </div>
         } else {
             return <div>
@@ -143,6 +148,11 @@ const Deposit = (props) => {
                 <Button onClick={resetState}>Cancel Deposit</Button>
             </div>
         }
+    }
+
+    const completeDeposit = (amount) => {
+        setStep(step + 1);
+        setDepositAmount(amount);
     }
 
     return (
@@ -196,6 +206,19 @@ const Deposit = (props) => {
                             <div>
                                 {renderUniques()}
                             </div>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                : null}
+
+            {step === 4 ?
+                <Grid item xs={6}>
+                    <Card>
+                        <CardContent>
+                            <DepositConfirmation
+                                amount={depositAmount}
+                                reset={resetState}>
+                            </DepositConfirmation>
                         </CardContent>
                     </Card>
                 </Grid>
