@@ -75,13 +75,16 @@ const Login = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (values.email && values.password) {
-            return firebase.login({
-                email: values.email,
-                password: values.password
-            })
-                .catch((err) => {
+            return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                firebase.login({
+                    email: values.email,
+                    password: values.password
+                }).catch((err) => {
                     setValues({ ...values, error: err.message })
                 })
+            }).catch((err) => {
+                setValues({ ...values, error: err.message })
+            })
         }
     }
 
