@@ -134,7 +134,7 @@ const Deposit = (props) => {
     const renderUniques = () => {
         if (deposit.uniques && deposit.uniques.length > 0) {
             return <div>
-                <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>}
+                <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
                     <DepositSlip
                     bills={deposit.uniques}
                     company={props.company}

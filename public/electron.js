@@ -29,7 +29,8 @@ function createWindow() {
             nodeIntegration: true,
             // preload: path.join(__dirname, '../src/preload.js')
 
-        }
+        },
+        icon: path.join(__dirname, 'assets/icons/png/1024x1024.png')
     });
     mainWindow.loadURL(isDev ? 'http://localhost:3000' :
         url.format({
