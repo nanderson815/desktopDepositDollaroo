@@ -1,7 +1,8 @@
+const { template } = require('./menu');
 const Serial = require('./Serial/SerialPort');
-
 const electron = require('electron');
 const app = electron.app;
+const Menu = electron.Menu;
 const { ipcMain } = require('electron');
 const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
@@ -62,3 +63,7 @@ app.on('activate', () => {
         createWindow();
     }
 });
+
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
