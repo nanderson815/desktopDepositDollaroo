@@ -68,6 +68,9 @@
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "win": {
+      "icon": "build/assets/icons/win/DollarooLogoWindows10.ico"
     }
   }
 }
