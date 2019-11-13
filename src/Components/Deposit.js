@@ -135,7 +135,7 @@ const Deposit = (props) => {
         if (deposit.uniques && deposit.uniques.length > 0) {
             return <div>
                 <p>Your remote deposit slip is below. Please review, manually enter coins, and press submit to complete the remote deposit.</p>
-                    <DepositSlip
+                <DepositSlip
                     bills={deposit.uniques}
                     company={props.company}
                     location={props.location}
@@ -169,13 +169,13 @@ const Deposit = (props) => {
                             {step === 1 ? <div>
                                 <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
                                     Step 1</Typography>
-                                <p>Make sure the S6500 is on "Mix" mode. Select Acknowledge and being counting.</p>
-                                <Button onClick={openPort}>Acknowledge</Button>
+                                <p>Make sure the S6500 is on "Mix" mode. Click Acknowledge below to begin counting.</p>
+                                <Button onClick={openPort} variant="contained" color="primary">Acknowledge</Button>
                             </div> : null}
                             {step === 2 ? <div>
                                 <Typography className={classes.subTitle} color="textSecondary" gutterBottom>
                                     Step 2</Typography>
-                                <p>Press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
+                                <p>Load your bills and press the "Start" button on the S6500 once you are ready to count. Data will populate below.</p>
                                 <div className={classes.centerText}>
                                     <DepositDetailTable bills={bills}></DepositDetailTable>
                                     <Button className={classes.button} disabled={bills.length < 1} variant="contained" color="primary" onClick={submitFunc}>Validate</Button>
