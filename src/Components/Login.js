@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
+    background: {
+        backgroundImage: "url('/assets/backgrounds/blue.svg')",
+        backgroundSize: "contain",
+    },
     root: {
         padding: theme.spacing(3, 2),
         maxWidth: 500
@@ -42,7 +46,8 @@ const useStyles = makeStyles(theme => ({
     centerText: {
         textAlign: "center",
         width: "100%"
-    }, centerDiv: {
+    },
+    centerDiv: {
         margin: "0 auto",
         marginBottom: 10
     }
@@ -89,64 +94,67 @@ const Login = (props) => {
     }
 
     return (
-        <Container>
-            {
-                !isLoaded(auth)
-                    ? <span>Loading...</span>
-                    : isEmpty(auth)
-                        ? <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                            style={{ minHeight: '75vh' }}>
-                            <Paper className={classes.root}>
-                                <form className={classes.container} noValidate autoComplete="off">
-                                    <h2 className={classes.centerText}>Login</h2>
-                                    <TextField
-                                        id="email-textarea"
-                                        label="Email"
-                                        placeholder="Email"
-                                        value={values.email}
-                                        onChange={handleChange('email')}
-                                        multiline
-                                        className={clsx(classes.textField, classes.centerDiv)}
-                                        margin="normal"
-                                        variant="outlined"
-                                    />
-                                    <FormControl className={clsx(classes.margin, classes.textField, classes.centerDiv)} variant="outlined">
-                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-password"
-                                            type={values.showPassword ? 'text' : 'password'}
-                                            value={values.password}
-                                            onChange={handleChange('password')}
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                    >
-                                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                            labelWidth={70}
+        <div className={classes.background}>
+            <Container >
+                {
+                    !isLoaded(auth)
+                        ? <span>Loading...</span>
+                        : isEmpty(auth)
+                            ? <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                style={{ minHeight: '100vh' }}>
+                                <Paper className={classes.root}>
+                                    <form className={classes.container} noValidate autoComplete="off">
+                                        {/* <img src="/assets/icons/png/1024x1024.png" width="100px" height="auto" className={classes.centerDiv}></img> */}
+                                        <h2 className={classes.centerText}>Sign In</h2>
+                                        <TextField
+                                            id="email-textarea"
+                                            label="Email"
+                                            placeholder="Email"
+                                            value={values.email}
+                                            onChange={handleChange('email')}
+                                            multiline
+                                            className={clsx(classes.textField, classes.centerDiv)}
+                                            margin="normal"
+                                            variant="outlined"
                                         />
-                                    </FormControl>
-                                    <div className={classes.centerText}>
-                                        <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
-                                            Submit</Button>
-                                    </div>
-                                    <p id="error" className={classes.centerText}>{values.error}</p>
-                                </form>
-                            </Paper>
-                        </Grid>
-                        : <Redirect to={{ pathname: "/dashboard" }} />
-            }
+                                        <FormControl className={clsx(classes.margin, classes.textField, classes.centerDiv)} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-password"
+                                                type={values.showPassword ? 'text' : 'password'}
+                                                value={values.password}
+                                                onChange={handleChange('password')}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                        >
+                                                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                labelWidth={70}
+                                            />
+                                        </FormControl>
+                                        <div className={classes.centerText}>
+                                            <Button type="submit" onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+                                                Submit</Button>
+                                        </div>
+                                        <p id="error" className={classes.centerText}>{values.error}</p>
+                                    </form>
+                                </Paper>
+                            </Grid>
+                            : <Redirect to={{ pathname: "/dashboard" }} />
+                }
 
-        </Container>
+            </Container>
+        </div>
     )
 }
 
