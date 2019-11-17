@@ -14,11 +14,22 @@ async function getPorts() {
     return livePorts.map(a => a.path);
 }
 
+async function checkPortStatus() {
+    if (!port) {
+        return null
+    } else {
+        return port.path
+    }
+}
+
 async function openPort(path) {
-    port = await new SerialPort(path, 9600);
-    port.pipe(parser);
-    return `Port ${port.path} is open.`
+    if (!port) {
+        port = await new SerialPort(path, 9600);
+        port.pipe(parser);
+        return `Port ${port.path} is open.`
+    }
 }
 
 module.exports.getPorts = getPorts;
 module.exports.openPort = openPort;
+module.exports.checkPortStatus = checkPortStatus;

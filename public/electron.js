@@ -17,7 +17,12 @@ ipcMain.on('getPorts', (event, arg) => {
 ipcMain.on('openPort', (event, arg) => {
     Serial.openPort(arg)
         .then(res => event.reply('openPort', res))
-})
+});
+
+ipcMain.on('checkPortStatus', (event, arg) => {
+    Serial.checkPortStatus()
+        .then(res => event.reply('portStatus', res))
+});
 
 let mainWindow;
 

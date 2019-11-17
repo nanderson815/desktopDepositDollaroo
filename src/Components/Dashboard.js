@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import ConnectScanner from './ConnectScanner';
 import Deposit from './Deposit';
+const { ipcRenderer } = window.require("electron");
+
 
 const Dashboard = (props) => {
     const auth = useSelector(state => state.firebase.auth)
@@ -34,6 +36,19 @@ const Dashboard = (props) => {
                 .catch(err => console.log(err));
         }
     }, [auth, props.firebase])
+
+    useEffect(() => {
+        if (!values.port) {
+            ipcRenderer.once('portStatus', (event, arg) => {
+                if (arg !== null) {
+                    setValues({ ...values, port: arg })
+                } else {
+                    console.log("No port connected.")
+                }
+            })
+            ipcRenderer.send('checkPortStatus', 'portsPlz')
+        }
+    })
 
     const logout = () => {
         props.firebase.logout()
