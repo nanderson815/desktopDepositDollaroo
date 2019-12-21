@@ -12,7 +12,7 @@ import { ReactReduxFirebaseProvider, firebaseReducer } from 'react-redux-firebas
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore'
 
 const fbConfig = {
-    apiKey: "AIzaSyC-3IzXoP2LU2QhnrfuhZWHp_QGedI7VdY",
+    apiKey: "AIzaSyAosrAZT4ke1I6nG8DH3rgRlT9s5GoEMws",
     authDomain: "dolaroo.firebaseapp.com",
     databaseURL: "https://dolaroo.firebaseio.com",
     projectId: "dolaroo",
