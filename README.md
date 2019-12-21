@@ -5,9 +5,9 @@ This is the desktop companion application to Dollaroo. The application is design
 
 ### Technologies Used
 
-Electron
-React
-Node
-Node Serial port
-Firebase
+Electron |
+React |
+Node |
+Node Serialport |
+Firebase |
 Redux
